@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="MGv-dJ-L7d">
     <dependencies>
+        <deployment defaultVersion="1808" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
     </dependencies>
     <scenes>
@@ -41,6 +42,7 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                             </subviews>
+                            <color key="backgroundColor" red="1" green="0.97980408959999998" blue="0.449657046" alpha="1" colorSpace="calibratedRGB"/>
                             <constraints>
                                 <constraint firstAttribute="centerY" secondItem="Fj1-Li-Upx" secondAttribute="centerY" constant="0.5" id="Rj0-g7-MaW"/>
                                 <constraint firstAttribute="centerX" secondItem="Fj1-Li-Upx" secondAttribute="centerX" constant="-0.5" id="o5p-y4-VpX"/>
