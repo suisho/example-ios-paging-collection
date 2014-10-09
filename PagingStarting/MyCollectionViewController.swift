@@ -82,6 +82,18 @@ class MyCollectionViewController: UICollectionViewController {
         cell.backgroundColor = UIColor(hue: h, saturation: CGFloat(0.5), brightness: CGFloat(0.5), alpha: 1.0)
         return cell
     }
+    
+    override func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String?, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
+        if let k = kind{
+            switch k{
+            case UICollectionElementKindSectionHeader:
+                return collectionView.dequeueReusableSupplementaryViewOfKind(k, withReuseIdentifier: "Header", forIndexPath: indexPath) as UICollectionReusableView
+            default:
+                break;
+            }
+        }
+        return UICollectionReusableView()
+    }
 
     // MARK: UICollectionViewDelegate
 
