@@ -54,13 +54,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Kai-2y-jce">
-                                <rect key="frame" x="0.0" y="320" width="600" height="299"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" red="1" green="0.65004653560000003" blue="0.66666970869999997" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="Kai-2y-jce" secondAttribute="height" multiplier="600:299" id="8RI-gz-25E"/>
+                                    <constraint firstAttribute="width" secondItem="Kai-2y-jce" secondAttribute="height" multiplier="1:1" id="8RI-gz-25E"/>
                                 </constraints>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="3FY-Oc-2Wx" customClass="HeaderPagingLayout" customModule="PagingStarting" customModuleProvider="target">
-                                    <size key="itemSize" width="100" height="124"/>
+                                    <size key="itemSize" width="205" height="357"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="50" maxX="0.0" maxY="0.0"/>
@@ -70,7 +70,7 @@
                                         <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="100" height="124"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="205" height="357"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
@@ -82,8 +82,8 @@
                         <color key="backgroundColor" red="0.8572225765" green="0.60461769460000003" blue="0.31287522680000002" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="Kai-2y-jce" secondAttribute="width" id="QY0-nd-ume"/>
+                            <constraint firstItem="Kai-2y-jce" firstAttribute="bottom" secondItem="lbH-3B-vMa" secondAttribute="top" id="Zaq-Ob-ejn"/>
                             <constraint firstAttribute="centerX" secondItem="Kai-2y-jce" secondAttribute="centerX" id="aSS-rj-Dr2"/>
-                            <constraint firstItem="Kai-2y-jce" firstAttribute="top" secondItem="QuJ-F0-qmA" secondAttribute="bottom" constant="300" id="sUv-PN-Sr9"/>
                         </constraints>
                     </view>
                     <connections>
@@ -92,7 +92,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dNL-YE-RUn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="568" y="549"/>
+            <point key="canvasLocation" x="568" y="347"/>
         </scene>
         <!--Page View Controller-->
         <scene sceneID="3XU-ac-6jG">

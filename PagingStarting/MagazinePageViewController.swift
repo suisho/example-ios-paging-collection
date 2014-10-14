@@ -7,21 +7,24 @@
 //
 
 import UIKit
-enum StoryBoardIds: String{
-    case Cover = "Cover", Magazine = "Magazine", End = "End"
+enum Pages: String{
+    case Cover = "Cover"
+    case Magazine = "Magazine"
+    case End = "End"
     static let all = [Cover, Magazine, End]
-    func next() -> StoryBoardIds?{
-        if let id = find(StoryBoardIds.all, self){
-            if id < StoryBoardIds.all.count - 1{
-                return StoryBoardIds.all[id+1]
+    func next() -> Pages?{
+        if let id = find(Pages.all, self){
+            println(id)
+            if id < Pages.all.count - 1{
+                return Pages.all[id+1]
             }
         }
         return nil
     }
-    func prev() -> StoryBoardIds?{
-        if let id = find(StoryBoardIds.all, self){
+    func prev() -> Pages?{
+        if let id = find(Pages.all, self){
             if 0 < id {
-                return StoryBoardIds.all[id-1]
+                return Pages.all[id-1]
             }
         }
         return nil
@@ -29,17 +32,30 @@ enum StoryBoardIds: String{
 
 }
 
-class MagazineRootViewController: UIViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate {
-    
+class MagazineRootViewController: UIViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, UIScrollViewDelegate {
+    var currentPage : Pages = Pages.Cover
+    var destPage : Pages? = nil
     var pageViewController : UIPageViewController?
     
-    func getViewControllerFromStoryBoard(id: StoryBoardIds) -> UIViewController{
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        println(self.currentPage.toRaw())
+        switch currentPage{
+        case .Cover:
+            if scrollView.contentOffset.x < scrollView.bounds.size.width {
+                scrollView.setContentOffset(CGPointMake(scrollView.bounds.size.width, 0), animated: false)
+            }
+        default:
+            break
+        }
+    }
+    
+    func getViewControllerFromStoryBoard(id: Pages) -> UIViewController{
         return self.storyboard!.instantiateViewControllerWithIdentifier(id.toRaw()) as UIViewController
     }
     
     func getViewControllers() -> [UIViewController]{
         var vc :[UIViewController] = []
-        for id in StoryBoardIds.all{
+        for id in Pages.all{
             vc.append(getViewControllerFromStoryBoard(id))
         }
         return vc
@@ -48,23 +64,32 @@ class MagazineRootViewController: UIViewController, UIPageViewControllerDataSour
     func disablePagingViewBounce(pageViewController : UIViewController){
         for v in pageViewController.view.subviews{
             if let scrollView = v as? UIScrollView{
-                scrollView.bounces = false
+                //scrollView.bounces = false
+                //scrollView.delegate = self
+                //scrollView.alwaysBounceHorizontal = true
+                //scrollView.bouncesZoom = false
+                scrollView.delegate = self
             }
         }
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         // setup pageView
-        let pageViewController = UIPageViewController(transitionStyle: UIPageViewControllerTransitionStyle.Scroll, navigationOrientation: UIPageViewControllerNavigationOrientation.Horizontal, options: nil)
+        let opt = [
+            UIPageViewControllerOptionSpineLocationKey : UIPageViewControllerSpineLocation.Mid.toRaw()
+        ]
+        let pageViewController = UIPageViewController(transitionStyle: UIPageViewControllerTransitionStyle.Scroll, navigationOrientation: UIPageViewControllerNavigationOrientation.Horizontal, options:opt)
         self.addChildViewController(pageViewController)
         
-        let startViewController = getViewControllerFromStoryBoard(StoryBoardIds.Cover)
+        let startViewController = getViewControllerFromStoryBoard(Pages.Cover)
         pageViewController.setViewControllers([startViewController], direction: UIPageViewControllerNavigationDirection.Forward, animated: true, completion: nil)
-        //disablePagingViewBounce(pageViewController)
+        disablePagingViewBounce(pageViewController)
         pageViewController.dataSource = self
         pageViewController.delegate = self
         pageViewController.view.frame = self.view.frame
+        self.currentPage = Pages.Cover
         self.pageViewController = pageViewController
         self.view.addSubview(pageViewController.view)
         self.view.gestureRecognizers = self.pageViewController?.gestureRecognizers
@@ -74,10 +99,21 @@ class MagazineRootViewController: UIViewController, UIPageViewControllerDataSour
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    func pageViewController(pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [AnyObject], transitionCompleted completed: Bool) {
+        if completed{
+            let pvc = pageViewController.viewControllers.last
+            if let d = Pages.fromRaw(pvc?.restorationIdentifier ?? ""){
+                self.currentPage = d
+            }
+        }
+    }
+    
+    
     func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController?{
-        
         if let restId = viewController.restorationIdentifier{
-            if let prev = StoryBoardIds.fromRaw(restId)?.prev(){
+
+            if let prev = Pages.fromRaw(restId)?.prev(){
                 return getViewControllerFromStoryBoard(prev)
             }
         }
@@ -86,7 +122,7 @@ class MagazineRootViewController: UIViewController, UIPageViewControllerDataSour
     }
     func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController?{
         if let restId = viewController.restorationIdentifier{
-            if let next = StoryBoardIds.fromRaw(restId)?.next(){
+            if let next = Pages.fromRaw(restId)?.next(){
                 return getViewControllerFromStoryBoard(next)
             }
         }
